@@ -7,12 +7,14 @@ using ff14bot;
 using System.Runtime.Caching;
 using ff14bot.Managers;
 using ff14bot.Overlay3D;
+using ff14bot.Enums;
 using SlimDX;
 using SlimDX.Direct2D;
 using SlimDX.Direct3D9;
 using Font = SlimDX.Direct3D9.Font;
 using Mesh = SlimDX.Direct3D9.Mesh;
 using Vector3 = SlimDX.Vector3;
+using Triangle = ff14bot.Managers.Triangle;
 
 namespace RB3DOverlay.Overlay
 {
@@ -117,12 +119,16 @@ namespace RB3DOverlay.Overlay
 
             _lastLocUpdate = myLoc;
 
-            float[] factors = { 1.0f, 0.8f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f };
-            Triangle[] triangles = null;
+            Vector3 extents = new Vector3(125, 40, 125);
+
+            var TList = GameWorld.GetTriangles((myLoc - extents).Convert(), (myLoc + extents).Convert(), RaycastFlags.PassthruBoundaries);
+            if(TList == null)
+                return;
+            Triangle[] triangles = TList.ToArray();
             //commented out to allow for compiles
             //foreach (float factor in factors)
             //{
-            //    Vector3 extents = new Vector3(125, 125, 40) * factor;
+            //     * factor;
             //    if (GameWorld.GetTriangles((myLoc - extents).Convert(), (myLoc + extents).Convert(),
             //                                TraceLineHitFlags.DoodadRender |
             //                                TraceLineHitFlags.WmoRender |

@@ -77,7 +77,7 @@ namespace RB3DOverlay.Overlay
                     using (Core.Memory.AcquireFrame(true))
                     {
                         ctx.UpdateZBuffer();
-                        //device.SetRenderState(RenderState.ZWriteEnable, false);
+                        device.SetRenderState(RenderState.ZWriteEnable, false);
                         Drawing?.Invoke(ctx);
                         Overlay3D.InvokeDrawing(new DrawingEventArgs(ctx));
                     }
@@ -129,9 +129,9 @@ namespace RB3DOverlay.Overlay
             device.SetRenderState(RenderState.ColorWriteEnable, ColorWriteEnable.All);
 
             // Depth
-            //device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
-            //device.SetRenderState(RenderState.ZWriteEnable, true);
-            //device.SetRenderState(RenderState.ZFunc, Compare.LessEqual);
+            device.SetRenderState(RenderState.ZEnable, ZBufferType.UseZBuffer);
+            device.SetRenderState(RenderState.ZWriteEnable, true);
+            device.SetRenderState(RenderState.ZFunc, Compare.LessEqual);
 
             device.SetRenderState(RenderState.CullMode, Cull.None);
 
